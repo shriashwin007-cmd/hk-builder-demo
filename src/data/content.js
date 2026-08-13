@@ -42,12 +42,12 @@ const layoutA = { hall: [90, 55], bed1: [90, 150], bed2: [90, 250], kitchen: [21
 const layoutB = { hall: [85, 60], dining: [85, 160], bed1: [85, 255], bed2: [205, 90], bed3: [205, 190], lines: [[10, 100, 160, 100], [160, 10, 160, 290], [160, 160, 250, 160], [10, 210, 160, 210]] };
 
 export const floorPlans = [
-  { id: 'F1', flat: 'F1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', facing: 'East Facing (OR South Facing) · First Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'A' },
-  { id: 'F2', flat: 'F2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', facing: 'East Facing (OR North Facing) · First Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'B' },
-  { id: 'S1', flat: 'S1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', facing: 'East Facing (OR South Facing) · Second Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'A' },
-  { id: 'S2', flat: 'S2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', facing: 'East Facing (OR North Facing) · Second Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'B' },
-  { id: 'T1', flat: 'T1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', facing: 'East Facing (OR South Facing) · Third Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'A' },
-  { id: 'T2', flat: 'T2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', facing: 'East Facing (OR North Facing) · Third Floor · 3 Bedrooms, Hall, Dining, 2 Balconies, 3 Toilets', layout: 'B' },
+  { id: 'F1', flat: 'F1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', floor: 'First Floor', bedrooms: 3, toilets: 3, facingShort: 'East / South Facing', layout: 'A' },
+  { id: 'F2', flat: 'F2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', floor: 'First Floor', bedrooms: 3, toilets: 3, facingShort: 'East / North Facing', layout: 'B' },
+  { id: 'S1', flat: 'S1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', floor: 'Second Floor', bedrooms: 3, toilets: 3, facingShort: 'East / South Facing', layout: 'A' },
+  { id: 'S2', flat: 'S2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', floor: 'Second Floor', bedrooms: 3, toilets: 3, facingShort: 'East / North Facing', layout: 'B' },
+  { id: 'T1', flat: 'T1', plinth: '1094 sq.ft', area: '1370 sq.ft', uds: '471.8', floor: 'Third Floor', bedrooms: 3, toilets: 3, facingShort: 'East / South Facing', layout: 'A' },
+  { id: 'T2', flat: 'T2', plinth: '1070 sq.ft', area: '1340 sq.ft', uds: '461.5', floor: 'Third Floor', bedrooms: 3, toilets: 3, facingShort: 'East / North Facing', layout: 'B' },
 ];
 
 export const layouts = { A: layoutA, B: layoutB };

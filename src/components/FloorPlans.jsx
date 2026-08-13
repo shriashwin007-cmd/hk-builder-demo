@@ -16,10 +16,6 @@ export default function FloorPlans() {
           <span className="tag mono">Floor Plans</span>
           <h2>Six premium 3BHK layouts.</h2>
         </div>
-        <p>East and north-facing units across First, Second and Third floors — each measured down to the square foot.</p>
-      </div>
-
-      <div className="reveal" ref={bodyRef}>
         <div className="tabs">
           {floorPlans.map((p) => (
             <button
@@ -31,29 +27,23 @@ export default function FloorPlans() {
             </button>
           ))}
         </div>
+      </div>
 
-        <div className="plan-panel active">
-          <div>
-            <table className="plan-table">
-              <thead>
-                <tr>
-                  <th>Flat</th>
-                  <th>Plinth</th>
-                  <th>Flat Area</th>
-                  <th>UDS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{plan.flat}</td>
-                  <td>{plan.plinth}</td>
-                  <td>{plan.area}</td>
-                  <td>{plan.uds}</td>
-                </tr>
-              </tbody>
-            </table>
-            <p className="plan-facing">{plan.facing}</p>
-          </div>
+      <div className="plans-body reveal" ref={bodyRef}>
+        <div className="plan-info">
+          <p className="plan-desc">
+            Six thoughtfully designed configurations built around different lifestyles.
+          </p>
+          <div className="plan-divider"></div>
+          <div className="plan-fact-id mono">{plan.id}</div>
+          <div className="plan-fact-area">{plan.plinth}</div>
+          <ul className="plan-fact-list">
+            <li>{plan.bedrooms} Bedrooms</li>
+            <li>{plan.toilets} Toilets</li>
+            <li>{plan.facingShort}</li>
+          </ul>
+        </div>
+        <div className="plan-sketch-wrap">
           <FloorPlanSketch layoutKey={plan.layout} />
         </div>
       </div>
