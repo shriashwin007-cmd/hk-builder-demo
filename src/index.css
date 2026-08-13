@@ -403,59 +403,106 @@ section {
 .project .section-head .tag {
   color: var(--gold-soft);
 }
-.project-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 70px;
-  align-items: start;
-}
-.building-art {
+/* ---------- SCROLL-DRIVEN FRAME SEQUENCE ---------- */
+.scroll-frames-wrap {
   position: relative;
-  aspect-ratio: 3 / 4;
-  background: linear-gradient(180deg, #1b2e38 0%, #16232b 100%);
-  border: 1px solid rgba(246, 242, 231, 0.12);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  clip-path: polygon(
-    var(--cut-lg) 0,
-    100% 0,
-    100% calc(100% - var(--cut-lg)),
-    calc(100% - var(--cut-lg)) 100%,
-    0 100%,
-    0 var(--cut-lg)
-  );
+  height: 400vh;
+  background: #000;
 }
-.building-art svg {
+.scroll-frames-pin {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.scroll-frames-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
 }
-.spec-list {
+.scroll-frames-loader {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  color: rgba(246, 242, 231, 0.7);
+  font-size: 0.72rem;
+  z-index: 3;
 }
-.spec-row {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 24px;
-  padding: 20px 0;
-  border-top: 1px solid rgba(246, 242, 231, 0.12);
-  font-size: 0.9rem;
-}
-.spec-row:last-child {
-  border-bottom: 1px solid rgba(246, 242, 231, 0.12);
-}
-.spec-row .k {
-  font-family: 'JetBrains Mono', monospace;
+.scroll-frames-head {
+  position: absolute;
+  top: 32px;
+  left: 5vw;
+  right: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
   font-size: 0.68rem;
+  color: rgba(246, 242, 231, 0.6);
+  pointer-events: none;
+}
+.scroll-caption-track {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 8vw;
+  perspective: 1400px;
+  pointer-events: none;
+}
+.scroll-caption {
+  position: absolute;
+  max-width: 520px;
+  color: var(--cream);
+  visibility: hidden;
+}
+.scroll-caption .cap-idx {
+  display: block;
+  font-size: 0.7rem;
   color: var(--gold-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding-top: 2px;
+  margin-bottom: 14px;
 }
-.spec-row .v {
+.scroll-caption h3 {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  margin-bottom: 14px;
+}
+.scroll-caption p {
+  font-size: 1rem;
+  line-height: 1.6;
   color: rgba(246, 242, 231, 0.78);
-  line-height: 1.55;
+  max-width: 44ch;
 }
+.scroll-progress-track {
+  position: absolute;
+  left: 8vw;
+  right: 8vw;
+  bottom: 32px;
+  height: 1px;
+  background: rgba(246, 242, 231, 0.16);
+  z-index: 2;
+}
+.scroll-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--gold-soft);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (max-width: 900px) {
+  .scroll-frames-wrap {
+    height: 300vh;
+  }
+  .scroll-caption {
+    max-width: 80vw;
+  }
+}
+
 .badge-row {
   display: flex;
   gap: 14px;
@@ -702,9 +749,6 @@ footer h2 {
     margin-top: 30px;
   }
   .service-grid {
-    grid-template-columns: 1fr;
-  }
-  .project-layout {
     grid-template-columns: 1fr;
   }
   .loc-grid {

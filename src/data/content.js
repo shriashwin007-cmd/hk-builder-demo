@@ -29,6 +29,15 @@ export const specs = [
   { k: 'Lift & Security', v: 'Automatic-closure passenger lift; smart digital lock access system for the building.' },
 ];
 
+export const projectCaptions = [
+  ...specs.map((s) => ({ title: s.k, body: s.v })),
+  {
+    title: 'Trusted & Approved',
+    body: 'CMDA-approved project with home loan partners already in place.',
+    badges: ['CMDA Approved', 'HDFC Home Loan', 'SBI Home Loan'],
+  },
+];
+
 const layoutA = { hall: [90, 55], bed1: [90, 150], bed2: [90, 250], kitchen: [210, 85], bed3: [210, 185], lines: [[10, 90, 170, 90], [170, 10, 170, 290], [170, 150, 250, 150], [10, 200, 170, 200]] };
 const layoutB = { hall: [85, 60], dining: [85, 160], bed1: [85, 255], bed2: [205, 90], bed3: [205, 190], lines: [[10, 100, 160, 100], [160, 10, 160, 290], [160, 160, 250, 160], [10, 210, 160, 210]] };
 
