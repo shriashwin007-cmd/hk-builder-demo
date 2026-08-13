@@ -72,6 +72,7 @@ export default function ScrollFrames() {
         loadedCount += 1;
         if (i === 0) {
           resizeCanvas();
+          drawFrame(0);
           gsap.to(loaderRef.current, { autoAlpha: 0, duration: 0.5 });
         }
         if (loaderRef.current) {

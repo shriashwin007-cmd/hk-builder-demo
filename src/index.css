@@ -23,9 +23,8 @@
   margin: 0;
   padding: 0;
 }
-html {
-  scroll-behavior: smooth;
-}
+/* scroll-behavior: smooth intentionally omitted — it fights GSAP
+   ScrollTrigger's pin/scrub math (canvas desync, sticky jumps). */
 body {
   background: var(--cream);
   color: var(--navy);
@@ -556,7 +555,6 @@ section {
 .plans {
   position: relative;
   background: var(--green-deep);
-  overflow: hidden;
 }
 .plans-video-bg {
   position: absolute;
