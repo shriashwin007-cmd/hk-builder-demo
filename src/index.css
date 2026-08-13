@@ -149,9 +149,9 @@ nav .links a:hover::after {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(15, 46, 31, 0.52) 0%,
-    rgba(15, 46, 31, 0.28) 45%,
-    rgba(15, 46, 31, 0.58) 100%
+    rgba(15, 46, 31, 0.22) 0%,
+    rgba(15, 46, 31, 0.06) 45%,
+    rgba(15, 46, 31, 0.3) 100%
   );
   pointer-events: none;
 }
@@ -169,6 +169,7 @@ nav .links a:hover::after {
   font-size: 0.8rem;
   color: var(--gold-soft);
   margin-bottom: 26px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
 }
 .hero-eyebrow::before {
   content: '';
@@ -180,6 +181,7 @@ nav .links a:hover::after {
   font-size: clamp(3.2rem, 6.4vw, 5.8rem);
   line-height: 1.03;
   max-width: 11ch;
+  filter: drop-shadow(0 6px 28px rgba(0, 0, 0, 0.55));
 }
 .hero h1 em {
   font-style: italic;
@@ -228,8 +230,9 @@ nav .links a:hover::after {
   margin-top: 26px;
   max-width: 44ch;
   font-size: 1.18rem;
-  color: rgba(246, 242, 231, 0.78);
+  color: rgba(246, 242, 231, 0.85);
   line-height: 1.6;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
 }
 .hero-cta {
   margin-top: 40px;
@@ -284,11 +287,13 @@ nav .links a:hover::after {
   font-family: 'Fraunces', serif;
   font-size: 2.1rem;
   color: var(--gold-soft);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
 }
 .hero-stats .lbl {
   font-size: 0.76rem;
   color: rgba(246, 242, 231, 0.65);
   margin-top: 6px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .scroll-cue {
