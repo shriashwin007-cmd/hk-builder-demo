@@ -1,20 +1,50 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { floorPlans } from '../data/content';
 import FloorPlanSketch from './FloorPlanSketch';
+import SplitText from './SplitText';
 
 export default function FloorPlans() {
   const [active, setActive] = useState(floorPlans[0].id);
   const headRef = useReveal();
   const bodyRef = useReveal();
+  const videoRef = useRef(null);
   const plan = floorPlans.find((p) => p.id === active);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = 0.6;
+  }, []);
 
   return (
     <section id="plans" className="plans">
+      <video
+        ref={videoRef}
+        className="plans-video-bg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source
+          src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786646852/second_backround_video_dtlciv.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div className="plans-video-overlay"></div>
       <div className="section-head reveal" ref={headRef}>
         <div>
           <span className="tag mono">Floor Plans</span>
-          <h2>Six premium 3BHK layouts.</h2>
+          <SplitText
+            tag="h2"
+            text="Six premium 3BHK layouts."
+            splitType="words"
+            delay={35}
+            duration={0.8}
+            from={{ opacity: 0, y: 26 }}
+            to={{ opacity: 1, y: 0 }}
+          />
         </div>
         <div className="tabs">
           {floorPlans.map((p) => (
