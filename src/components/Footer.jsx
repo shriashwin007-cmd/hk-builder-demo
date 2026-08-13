@@ -9,7 +9,7 @@ export default function Footer() {
     <footer id="contact">
       <div className="footer-top">
         <div className="footer-cta reveal" ref={ctaRef}>
-          <h2>Let's build your next address.</h2>
+          <h2 className="outline-text">Let's build your next address.</h2>
           <p>Site visits open daily at SP Galaxy, Nolambur. Talk to our team about unit availability and loan partners.</p>
           <a href="tel:9940669066" className="btn btn-gold">
             Call 99406 69066 →

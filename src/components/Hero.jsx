@@ -9,7 +9,7 @@ export default function Hero() {
         <h1>
           <SplitText
             tag="span"
-            className="hero-line"
+            className="hero-line outline-text"
             text="Elegant & premium, "
             splitType="words"
             delay={40}
