@@ -1,0 +1,34 @@
+import { useReveal } from '../hooks/useReveal';
+import { services } from '../data/content';
+
+export default function Services() {
+  const headRef = useReveal();
+  const gridRef = useReveal();
+
+  return (
+    <section id="services" className="services">
+      <div className="section-head reveal" ref={headRef}>
+        <div>
+          <span className="tag mono">What We Do</span>
+          <h2>One builder, every layer of the build.</h2>
+        </div>
+        <p>
+          From structure to the final coat of paint — HK Builder runs construction, painting and interiors as one
+          accountable team, not three vendors.
+        </p>
+      </div>
+      <div className="service-grid reveal" ref={gridRef}>
+        {services.map((s) => (
+          <div className="service-card" key={s.idx}>
+            <span className="idx">{s.idx}</span>
+            <svg className="icon" viewBox="0 0 40 40" fill="none">
+              <path d={s.icon} stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
