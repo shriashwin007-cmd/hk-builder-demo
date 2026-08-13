@@ -1,4 +1,5 @@
-import Mascot3D from './Mascot3D';
+import SplitText from './SplitText';
+import CountUp from './CountUp';
 
 export default function Hero() {
   return (
@@ -6,7 +7,20 @@ export default function Hero() {
       <div className="hero-copy">
         <span className="hero-eyebrow mono">CMDA Approved · Nolambur, Chennai</span>
         <h1>
-          Elegant &amp; premium, <em>comfort</em> meets class.
+          <SplitText
+            tag="span"
+            className="hero-line"
+            text="Elegant & premium, "
+            splitType="words"
+            delay={40}
+            duration={0.9}
+            from={{ opacity: 0, y: 24 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0}
+          />
+          <span className="hero-accent-line">
+            <em>comfort</em> meets class.
+          </span>
         </h1>
         <p className="lede">
           HK Builder designs, constructs, paints and finishes — full-stack, under one roof. Meet SP Galaxy, our
@@ -26,16 +40,19 @@ export default function Hero() {
             <div className="lbl mono">Seismic Zone Rated</div>
           </div>
           <div>
-            <div className="num">12K L</div>
+            <div className="num">
+              <CountUp to={12} duration={2} />K L
+            </div>
             <div className="lbl mono">Underground Water Tank</div>
           </div>
           <div>
-            <div className="num">6</div>
+            <div className="num">
+              <CountUp to={6} duration={1.4} />
+            </div>
             <div className="lbl mono">3BHK Configurations</div>
           </div>
         </div>
       </div>
-      <Mascot3D />
       <div className="scroll-cue">
         <div className="line"></div>
         <span className="mono">Scroll</span>

@@ -109,8 +109,7 @@ nav .links a:hover::after {
 .hero {
   position: relative;
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  display: flex;
   align-items: center;
   background: var(--green-deep);
   color: var(--cream);
@@ -130,6 +129,7 @@ nav .links a:hover::after {
   z-index: 2;
   padding: 0 5vw;
   padding-top: 80px;
+  max-width: 900px;
 }
 .hero-eyebrow {
   display: inline-flex;
@@ -154,6 +154,32 @@ nav .links a:hover::after {
   font-style: italic;
   color: var(--gold-soft);
   font-weight: 500;
+}
+.hero-line {
+  display: inline;
+}
+.hero-line .split-word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.hero-accent-line {
+  display: inline;
+  opacity: 0;
+  animation: heroAccentIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.7s forwards;
+}
+@keyframes heroAccentIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-accent-line {
+    animation: none;
+    opacity: 1;
+  }
 }
 .hero p.lede {
   margin-top: 26px;
@@ -219,28 +245,6 @@ nav .links a:hover::after {
   font-size: 0.68rem;
   color: rgba(246, 242, 231, 0.6);
   margin-top: 4px;
-}
-
-.mascot-stage {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  min-height: 560px;
-}
-#mascot-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-.mascot-caption {
-  position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.68rem;
-  color: rgba(246, 242, 231, 0.5);
-  text-align: center;
-  white-space: nowrap;
 }
 
 .scroll-cue {
@@ -639,15 +643,8 @@ footer h2 {
 }
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 420px;
-  }
   .hero-copy {
     padding-top: 150px;
-  }
-  .mascot-stage {
-    min-height: 420px;
   }
   .hero-stats {
     flex-wrap: wrap;

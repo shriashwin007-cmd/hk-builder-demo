@@ -1,5 +1,6 @@
 import { useReveal } from '../hooks/useReveal';
 import { services } from '../data/content';
+import SpotlightCard from './SpotlightCard/SpotlightCard';
 
 export default function Services() {
   const headRef = useReveal();
@@ -19,14 +20,14 @@ export default function Services() {
       </div>
       <div className="service-grid reveal" ref={gridRef}>
         {services.map((s) => (
-          <div className="service-card" key={s.idx}>
+          <SpotlightCard className="service-card" spotlightColor="rgba(201, 162, 39, 0.16)" key={s.idx}>
             <span className="idx">{s.idx}</span>
             <svg className="icon" viewBox="0 0 40 40" fill="none">
               <path d={s.icon} stroke="currentColor" strokeWidth="1.5" />
             </svg>
             <h3>{s.title}</h3>
             <p>{s.desc}</p>
-          </div>
+          </SpotlightCard>
         ))}
       </div>
     </section>
