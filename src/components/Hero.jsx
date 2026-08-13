@@ -4,6 +4,21 @@ import CountUp from './CountUp';
 export default function Hero() {
   return (
     <header className="hero">
+      <video
+        className="hero-video-bg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      >
+        <source
+          src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786643789/backround_video_etoohg.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div className="hero-video-overlay"></div>
       <div className="hero-copy">
         <span className="hero-eyebrow mono">CMDA Approved · Nolambur, Chennai</span>
         <h1>
