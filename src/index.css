@@ -377,7 +377,7 @@ section {
 }
 .service-card {
   background: var(--cream);
-  padding: 40px 32px;
+  padding: 0;
   transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
   position: relative;
   clip-path: polygon(
@@ -389,6 +389,24 @@ section {
     0 var(--cut-md)
   );
 }
+.service-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: rgba(15, 46, 31, 0.06);
+}
+.service-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.service-card:hover .service-media img {
+  transform: scale(1.04);
+}
+.service-body {
+  padding: 32px;
+}
 .service-card:hover {
   background: #fff;
   box-shadow: var(--shadow-md);
@@ -398,7 +416,7 @@ section {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
   color: var(--gold);
-  margin-bottom: 26px;
+  margin-bottom: 14px;
   display: block;
 }
 .service-card h3 {
@@ -409,12 +427,6 @@ section {
   font-size: 0.88rem;
   color: var(--sage);
   line-height: 1.6;
-}
-.service-card .icon {
-  width: 38px;
-  height: 38px;
-  margin-bottom: 22px;
-  color: var(--green-mid);
 }
 
 /* ---------- PROJECT ---------- */
@@ -715,8 +727,30 @@ section {
 
 /* ---------- LOCATION ---------- */
 .location {
+  position: relative;
   background: var(--green-deep);
   color: var(--cream);
+  overflow: hidden;
+}
+.location::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(
+      180deg,
+      rgba(15, 46, 31, 0.9) 0%,
+      rgba(15, 46, 31, 0.78) 40%,
+      rgba(15, 46, 31, 0.94) 100%
+    ),
+    url('/img/location-aerial.jpg');
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+.location > * {
+  position: relative;
+  z-index: 1;
 }
 .location .section-head .tag {
   color: var(--gold-soft);

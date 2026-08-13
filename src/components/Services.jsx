@@ -21,12 +21,14 @@ export default function Services() {
       <div className="service-grid reveal" ref={gridRef}>
         {services.map((s) => (
           <SpotlightCard className="service-card" spotlightColor="rgba(201, 162, 39, 0.16)" key={s.idx}>
-            <span className="idx">{s.idx}</span>
-            <svg className="icon" viewBox="0 0 40 40" fill="none">
-              <path d={s.icon} stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
+            <div className="service-media">
+              <img src={s.img} alt={s.alt} loading="lazy" />
+            </div>
+            <div className="service-body">
+              <span className="idx">{s.idx}</span>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
           </SpotlightCard>
         ))}
       </div>
