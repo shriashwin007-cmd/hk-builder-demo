@@ -1,10 +1,18 @@
+import { useEffect, useRef } from 'react';
 import SplitText from './SplitText';
 import CountUp from './CountUp';
 
 export default function Hero() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = 0.5;
+  }, []);
+
   return (
     <header className="hero">
       <video
+        ref={videoRef}
         className="hero-video-bg"
         autoPlay
         muted
