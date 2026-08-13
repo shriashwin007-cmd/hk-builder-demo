@@ -6,7 +6,12 @@ export default function Hero() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = 0.5;
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.playbackRate = 0.5;
+    const playPromise = video.play();
+    if (playPromise) playPromise.catch(() => {});
   }, []);
 
   return (

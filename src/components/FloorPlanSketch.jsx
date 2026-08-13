@@ -22,12 +22,12 @@ export default function FloorPlanSketch({ layoutKey }) {
   return (
     <div className="plan-sketch">
       <svg viewBox="0 0 260 300">
-        <rect x="10" y="10" width="240" height="280" fill="none" stroke="#0F2E1F" strokeWidth="1.4" />
+        <rect x="10" y="10" width="240" height="280" fill="none" stroke="#E4C766" strokeWidth="1.4" />
         {l.lines.map((pts, i) => (
-          <line key={i} x1={pts[0]} y1={pts[1]} x2={pts[2]} y2={pts[3]} stroke="#7C9082" />
+          <line key={i} x1={pts[0]} y1={pts[1]} x2={pts[2]} y2={pts[3]} stroke="rgba(246,242,231,0.32)" />
         ))}
         {labels.map(([text, pos], i) => (
-          <text key={i} x={pos[0]} y={pos[1]} fontFamily="JetBrains Mono" fontSize="9" fill="#7C9082" textAnchor="middle">
+          <text key={i} x={pos[0]} y={pos[1]} fontFamily="JetBrains Mono" fontSize="9" fill="rgba(246,242,231,0.85)" textAnchor="middle">
             {text}
           </text>
         ))}

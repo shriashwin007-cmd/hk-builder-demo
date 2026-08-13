@@ -685,10 +685,12 @@ section {
   width: 100%;
 }
 .plan-sketch {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(246, 242, 231, 0.2);
   aspect-ratio: 4 / 5;
-  background: #fff;
-  box-shadow: var(--shadow-md);
+  background: rgba(15, 46, 31, 0.42);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-lg);
   clip-path: polygon(
     0 0,
     calc(100% - var(--cut-md)) 0,

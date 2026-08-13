@@ -12,7 +12,12 @@ export default function FloorPlans() {
   const plan = floorPlans.find((p) => p.id === active);
 
   useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = 0.6;
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.playbackRate = 0.6;
+    const playPromise = video.play();
+    if (playPromise) playPromise.catch(() => {});
   }, []);
 
   return (
