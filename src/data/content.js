@@ -25,6 +25,14 @@ export const services = [
   },
 ];
 
+export const galleryItems = [
+  { image: '/img/gal-construction.jpg', label: 'Structure', alt: 'Concrete and brick structural frame' },
+  { image: '/img/gal-masonry.jpg', label: 'Masonry', alt: 'Sunlit terracotta brick wall' },
+  { image: '/img/gal-painting.jpg', label: 'Paint & Finish', alt: 'Paint roller against a freshly painted wall' },
+  { image: '/img/gal-interiors.jpg', label: 'Kitchen', alt: 'Granite counter and teak cabinetry' },
+  { image: '/img/gal-living.jpg', label: 'Living', alt: 'Sunlit living room with emerald wall and brass fittings' },
+];
+
 export const specs = [
   { k: 'Structure', v: 'Seismic Zone III, ductile detailing per IS 13920 / IS 456 / SP 16. 9" outer walls, 4.5" partitions.' },
   { k: 'Doors & Windows', v: 'Premium teakwood main door with brass fittings; UPVC-framed windows for insulation and durability.' },
