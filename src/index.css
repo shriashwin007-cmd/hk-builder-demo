@@ -176,16 +176,28 @@ nav .links a:hover::after {
   height: 1px;
   background: var(--gold-soft);
 }
-.hero h1 {
-  font-size: clamp(3.2rem, 6.4vw, 5.8rem);
-  line-height: 1.03;
-  max-width: 11ch;
+.hero-pressure {
+  position: relative;
+  width: 100%;
+  height: clamp(90px, 13vw, 190px);
   filter: drop-shadow(0 6px 28px rgba(0, 0, 0, 0.55));
 }
-.hero h1 em {
+/* The flex layout collapses the word space to zero width, so "HK Builder"
+   reads as "HKBUILDER". Give the space character real width back. */
+.hero-pressure .text-pressure-title span[data-char=' '] {
+  min-width: 0.28em;
+}
+.hero-tagline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--cream);
+  margin-top: 10px;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
+}
+.hero-tagline em {
   font-style: italic;
   color: var(--gold-soft);
-  font-weight: 500;
 }
 .hero-line {
   display: inline;
@@ -882,14 +894,32 @@ footer h2 {
   gap: 10px;
 }
 
+/* GSAP owns these once the hook mounts and adds .in; the base rule only
+   prevents a flash of un-animated content before hydration. */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .reveal.in {
   opacity: 1;
-  transform: translateY(0);
+}
+
+/* ---------- SCROLL PROGRESS ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 200;
+  background: transparent;
+  pointer-events: none;
+}
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 @media (max-width: 900px) {

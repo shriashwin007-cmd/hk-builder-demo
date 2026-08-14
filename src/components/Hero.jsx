@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import SplitText from './SplitText';
 import CountUp from './CountUp';
+import TextPressure from './TextPressure';
 
 export default function Hero() {
   const videoRef = useRef(null);
@@ -34,22 +34,24 @@ export default function Hero() {
       <div className="hero-video-overlay"></div>
       <div className="hero-copy">
         <span className="hero-eyebrow mono">CMDA Approved · Nolambur, Chennai</span>
-        <h1>
-          <SplitText
-            tag="span"
-            className="hero-line outline-text"
-            text="Elegant & premium, "
-            splitType="words"
-            delay={40}
-            duration={0.9}
-            from={{ opacity: 0, y: 24 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0}
+        <div className="hero-pressure">
+          <TextPressure
+            text="HK Builder"
+            fontFamily="Fraunces"
+            fontUrl="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&display=swap"
+            flex={true}
+            alpha={false}
+            stroke={false}
+            width={false}
+            weight={true}
+            italic={false}
+            textColor="#F6F2E7"
+            minFontSize={44}
           />
-          <span className="hero-accent-line">
-            <em>comfort</em> meets class.
-          </span>
-        </h1>
+        </div>
+        <p className="hero-tagline">
+          Elegant &amp; premium, <em>comfort</em> meets class.
+        </p>
         <p className="lede">
           HK Builder designs, constructs, paints and finishes — full-stack, under one roof. Meet SP Galaxy, our
           flagship premium 3BHK residence.

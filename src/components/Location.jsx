@@ -1,9 +1,9 @@
-import { useReveal } from '../hooks/useReveal';
+import { useReveal, useStagger } from '../hooks/useReveal';
 import { location } from '../data/content';
 
 export default function Location() {
   const headRef = useReveal();
-  const gridRef = useReveal();
+  const gridRef = useStagger({ y: 50, stagger: 0.1 });
 
   return (
     <section id="location" className="location">

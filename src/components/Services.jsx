@@ -1,10 +1,10 @@
-import { useReveal } from '../hooks/useReveal';
+import { useReveal, useStagger } from '../hooks/useReveal';
 import { services } from '../data/content';
 import SpotlightCard from './SpotlightCard/SpotlightCard';
 
 export default function Services() {
   const headRef = useReveal();
-  const gridRef = useReveal();
+  const gridRef = useStagger({ y: 60, stagger: 0.14 });
 
   return (
     <section id="services" className="services">

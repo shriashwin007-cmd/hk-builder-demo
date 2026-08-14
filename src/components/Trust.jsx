@@ -1,4 +1,4 @@
-import { useReveal } from '../hooks/useReveal';
+import { useStagger } from '../hooks/useReveal';
 
 const items = [
   <><strong>CMDA</strong>&nbsp;Approved Project</>,
@@ -8,7 +8,7 @@ const items = [
 ];
 
 export default function Trust() {
-  const ref = useReveal();
+  const ref = useStagger({ y: 30, stagger: 0.09 });
   return (
     <section className="trust">
       <div className="trust-inner reveal" ref={ref}>
