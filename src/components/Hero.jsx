@@ -1,36 +1,15 @@
-import { useEffect, useRef } from 'react';
 import CountUp from './CountUp';
 import TextPressure from './TextPressure';
+import BackgroundVideo from './BackgroundVideo';
 
 export default function Hero() {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.playbackRate = 0.5;
-    const playPromise = video.play();
-    if (playPromise) playPromise.catch(() => {});
-  }, []);
-
   return (
     <header className="hero">
-      <video
-        ref={videoRef}
+      <BackgroundVideo
         className="hero-video-bg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      >
-        <source
-          src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786643789/backround_video_etoohg.mp4"
-          type="video/mp4"
-        />
-      </video>
+        src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786643789/backround_video_etoohg.mp4"
+        playbackRate={0.5}
+      />
       <div className="hero-video-overlay"></div>
       <div className="hero-copy">
         <span className="hero-eyebrow mono">CMDA Approved · Nolambur, Chennai</span>

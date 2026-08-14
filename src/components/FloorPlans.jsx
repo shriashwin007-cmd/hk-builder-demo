@@ -1,42 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { floorPlans } from '../data/content';
 import FloorPlanSketch from './FloorPlanSketch';
 import SplitText from './SplitText';
+import BackgroundVideo from './BackgroundVideo';
 
 export default function FloorPlans() {
   const [active, setActive] = useState(floorPlans[0].id);
   const headRef = useReveal();
   const bodyRef = useReveal();
-  const videoRef = useRef(null);
   const plan = floorPlans.find((p) => p.id === active);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.playbackRate = 0.6;
-    const playPromise = video.play();
-    if (playPromise) playPromise.catch(() => {});
-  }, []);
 
   return (
     <section id="plans" className="plans">
-      <video
-        ref={videoRef}
+      <BackgroundVideo
         className="plans-video-bg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      >
-        <source
-          src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786646852/second_backround_video_dtlciv.mp4"
-          type="video/mp4"
-        />
-      </video>
+        src="https://res.cloudinary.com/dxvui0xkz/video/upload/v1786646852/second_backround_video_dtlciv.mp4"
+        playbackRate={0.6}
+      />
       <div className="plans-video-overlay"></div>
       <div className="section-head reveal" ref={headRef}>
         <div>

@@ -51,6 +51,24 @@ img {
   max-width: 100%;
   display: block;
 }
+/* Decorative background videos must never show a play/pause affordance —
+   Safari paints its own overlay button when it blocks autoplay. */
+.hero-video-bg,
+.plans-video-bg {
+  pointer-events: none;
+}
+.hero-video-bg::-webkit-media-controls,
+.plans-video-bg::-webkit-media-controls,
+.hero-video-bg::-webkit-media-controls-panel,
+.plans-video-bg::-webkit-media-controls-panel,
+.hero-video-bg::-webkit-media-controls-start-playback-button,
+.plans-video-bg::-webkit-media-controls-start-playback-button,
+.hero-video-bg::-webkit-media-controls-overlay-play-button,
+.plans-video-bg::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+}
 
 /* ---------- NAV ---------- */
 nav {
