@@ -6,8 +6,12 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
 import ScrollTriggerRefresh from '@/components/motion/ScrollTriggerRefresh';
+import WhatsAppFab from '@/components/layout/WhatsAppFab';
+import { getSiteSettings } from '@/lib/content';
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings();
+
   return (
     <>
       <a href="#main" className="skip-link">
@@ -17,7 +21,11 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <ScrollTriggerRefresh />
       <Nav />
       <main id="main">{children}</main>
-      <Footer />
+      <Footer settings={settings} />
+      <WhatsAppFab
+        number={settings.whatsapp}
+        message={`Hi HK Builder, I'd like to know more about SP Galaxy.`}
+      />
     </>
   );
 }

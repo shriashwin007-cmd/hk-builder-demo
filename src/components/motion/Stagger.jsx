@@ -13,7 +13,7 @@ export default function Stagger({
   stagger = 0.12,
   duration = 0.9,
   start = 'top 82%',
-  selector,
+  selector = undefined,
   ...rest
 }) {
   const ref = useRef(null);
