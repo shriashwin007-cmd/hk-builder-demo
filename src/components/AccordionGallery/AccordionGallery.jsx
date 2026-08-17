@@ -1,15 +1,12 @@
+'use client';
+
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { gsap } from 'gsap';
+import { gsap } from '@/lib/gsap';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 import './AccordionGallery.css';
 
-const DEFAULT_ITEMS = [
-  { image: 'https://picsum.photos/id/1015/900/1200', label: 'Canyon', link: '#' },
-  { image: 'https://picsum.photos/id/1018/900/1200', label: 'Ridgeline', link: '#' },
-  { image: 'https://picsum.photos/id/1039/900/1200', label: 'Falls', link: '#' },
-  { image: 'https://picsum.photos/id/1043/900/1200', label: 'Harbour', link: '#' },
-  { image: 'https://picsum.photos/id/1044/900/1200', label: 'Skyline', link: '#' }
-];
+const DEFAULT_ITEMS = [];
 
 const AccordionGallery = ({
   items = DEFAULT_ITEMS,
@@ -45,10 +42,9 @@ const AccordionGallery = ({
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
 
-  const prefersReduced =
-    typeof window !== 'undefined' && window.matchMedia
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false;
+  // Read via useSyncExternalStore: client components prerender on the server,
+  // where `window` is undefined, and this must not cause a hydration mismatch.
+  const prefersReduced = usePrefersReducedMotion();
 
   const applyLayout = useCallback(
     animate => {
@@ -187,7 +183,6 @@ const AccordionGallery = ({
         '--ag-radius': `${radius}px`,
         height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`
       }}
-      role="list"
       aria-label="Image accordion gallery"
     >
       {items.map((item, i) => {
@@ -204,7 +199,6 @@ const AccordionGallery = ({
             onMouseEnter={() => handleEnter(i)}
             onFocus={() => setActive(i)}
             onKeyDown={e => handleKeyDown(i, e)}
-            role="listitem"
             tabIndex={0}
             aria-current={isActive ? 'true' : undefined}
             aria-label={item.label}

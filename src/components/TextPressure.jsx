@@ -1,6 +1,20 @@
-// Component ported from https://codepen.io/JuanFuentes/full/rgXKGQ
+'use client';
 
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+// Component ported from https://codepen.io/JuanFuentes/full/rgXKGQ
+//
+// Deviations from the upstream React Bits version, all deliberate:
+//  - The heading exposes one contiguous text node for assistive tech and
+//    crawlers; the per-character spans are decorative.
+//  - The rAF loop is gated on reduced-motion, fine pointer, viewport
+//    intersection and tab visibility, and parks itself once the lerp settles.
+//    Upstream runs it forever on every device.
+//  - Font sizing is CSS (container query units) rather than JS, because the
+//    upstream measure-then-setState pass shifts the LCP element.
+//  - No injected <style> with an @import; fonts come from next/font and the
+//    static rules live in index.css.
+
+import { useEffect, useRef, useState } from 'react';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 const dist = (a, b) => {
   const dx = b.x - a.x;
@@ -13,35 +27,19 @@ const getAttr = (distance, maxDist, minVal, maxVal) => {
   return Math.max(minVal, val + minVal);
 };
 
-const debounce = (func, delay) => {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-};
-
 const TextPressure = ({
   text = 'Compressa',
-  fontFamily = 'Roboto Flex',
-  fontUrl = 'https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap',
-
+  fontFamily = 'var(--font-display)',
   width = true,
   weight = true,
   italic = true,
   alpha = false,
-
   flex = true,
   stroke = false,
-  scale = false,
-
   textColor = '#FFFFFF',
   strokeColor = '#FF0000',
   className = '',
-
-  minFontSize = 24
+  as: Tag = 'h1',
 }) => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
@@ -49,195 +47,148 @@ const TextPressure = ({
 
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef(0);
+  const runningRef = useRef(false);
 
-  const [fontSize, setFontSize] = useState(minFontSize);
-  const [scaleY, setScaleY] = useState(1);
-  const [lineHeight, setLineHeight] = useState(1);
-
-  const chars = text.split('');
+  const [canHover, setCanHover] = useState(false);
+  const reduced = usePrefersReducedMotion();
+  const chars = Array.from(text);
 
   useEffect(() => {
-    const handleMouseMove = e => {
-      cursorRef.current.x = e.clientX;
-      cursorRef.current.y = e.clientY;
-    };
-    const handleTouchMove = e => {
-      const t = e.touches[0];
-      cursorRef.current.x = t.clientX;
-      cursorRef.current.y = t.clientY;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-
-    if (containerRef.current) {
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      mouseRef.current.x = left + width / 2;
-      mouseRef.current.y = top + height / 2;
-      cursorRef.current.x = mouseRef.current.x;
-      cursorRef.current.y = mouseRef.current.y;
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-    };
+    const mql = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const sync = () => setCanHover(mql.matches);
+    sync();
+    mql.addEventListener('change', sync);
+    return () => mql.removeEventListener('change', sync);
   }, []);
 
-  const setSize = useCallback(() => {
-    if (!containerRef.current || !titleRef.current) return;
-
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
-
-    let newFontSize = containerW / (chars.length / 2);
-    newFontSize = Math.max(newFontSize, minFontSize);
-
-    setFontSize(newFontSize);
-    setScaleY(1);
-    setLineHeight(1);
-
-    requestAnimationFrame(() => {
-      if (!titleRef.current) return;
-      const textRect = titleRef.current.getBoundingClientRect();
-
-      if (scale && textRect.height > 0) {
-        const yRatio = containerH / textRect.height;
-        setScaleY(yRatio);
-        setLineHeight(yRatio);
-      }
-    });
-  }, [chars.length, minFontSize, scale]);
-
   useEffect(() => {
-    const debouncedSetSize = debounce(setSize, 100);
-    debouncedSetSize();
-    window.addEventListener('resize', debouncedSetSize);
-    return () => window.removeEventListener('resize', debouncedSetSize);
-  }, [setSize]);
+    // Mouse-driven effect: pointless and battery-hostile on touch devices.
+    if (reduced || !canHover) return;
 
-  useEffect(() => {
-    let rafId;
-    const animate = () => {
-      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
+    const container = containerRef.current;
+    if (!container) return;
 
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
+    let visible = false;
 
-        spansRef.current.forEach(span => {
-          if (!span) return;
+    const applyVariation = () => {
+      const title = titleRef.current;
+      if (!title) return;
+      const maxDist = title.getBoundingClientRect().width / 2;
 
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2
-          };
-
-          const d = dist(mouseRef.current, charCenter);
-
-          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
-          const italVal = italic ? getAttr(d, maxDist, 0, 1).toFixed(2) : 0;
-          const alphaVal = alpha ? getAttr(d, maxDist, 0, 1).toFixed(2) : 1;
-
-          const newFontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
-
-          if (span.style.fontVariationSettings !== newFontVariationSettings) {
-            span.style.fontVariationSettings = newFontVariationSettings;
-          }
-          if (alpha && span.style.opacity !== alphaVal) {
-            span.style.opacity = alphaVal;
-          }
+      spansRef.current.forEach((span) => {
+        if (!span) return;
+        const rect = span.getBoundingClientRect();
+        const d = dist(mouseRef.current, {
+          x: rect.x + rect.width / 2,
+          y: rect.y + rect.height / 2,
         });
-      }
 
-      rafId = requestAnimationFrame(animate);
+        const parts = [];
+        if (weight) parts.push(`'wght' ${Math.floor(getAttr(d, maxDist, 100, 900))}`);
+        if (width) parts.push(`'wdth' ${Math.floor(getAttr(d, maxDist, 5, 200))}`);
+        if (italic) parts.push(`'ital' ${getAttr(d, maxDist, 0, 1).toFixed(2)}`);
+
+        const next = parts.join(', ');
+        if (next && span.style.fontVariationSettings !== next) {
+          span.style.fontVariationSettings = next;
+        }
+        if (alpha) {
+          const a = getAttr(d, maxDist, 0, 1).toFixed(2);
+          if (span.style.opacity !== a) span.style.opacity = a;
+        }
+      });
     };
 
-    animate();
-    return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha]);
+    const tick = () => {
+      const dx = cursorRef.current.x - mouseRef.current.x;
+      const dy = cursorRef.current.y - mouseRef.current.y;
+      mouseRef.current.x += dx / 15;
+      mouseRef.current.y += dy / 15;
 
-  const styleElement = useMemo(() => {
-    return (
-      <style>{`
-        @import url('${fontUrl}');
+      applyVariation();
 
-        .flex {
-          display: flex;
-          justify-content: space-between;
-        }
+      // Park the loop once it has converged; a pointer move restarts it.
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        runningRef.current = false;
+        return;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
 
-        .stroke span {
-          position: relative;
-          color: ${textColor};
-        }
-        .stroke span::after {
-          content: attr(data-char);
-          position: absolute;
-          left: 0;
-          top: 0;
-          color: transparent;
-          z-index: -1;
-          -webkit-text-stroke-width: 3px;
-          -webkit-text-stroke-color: ${strokeColor};
-        }
+    const start = () => {
+      if (runningRef.current || !visible || document.visibilityState !== 'visible') return;
+      runningRef.current = true;
+      rafRef.current = requestAnimationFrame(tick);
+    };
 
-        .text-pressure-title {
-          color: ${textColor};
-        }
-      `}</style>
+    const onMove = (e) => {
+      cursorRef.current.x = e.clientX;
+      cursorRef.current.y = e.clientY;
+      start();
+    };
+
+    const rect = container.getBoundingClientRect();
+    mouseRef.current = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    cursorRef.current = { ...mouseRef.current };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) start();
+      },
+      { threshold: 0 }
     );
-  }, [fontFamily, fontUrl, textColor, strokeColor]);
+    io.observe(container);
 
-  const dynamicClassName = [className, flex ? 'flex' : '', stroke ? 'stroke' : ''].filter(Boolean).join(' ');
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') start();
+    };
+
+    window.addEventListener('mousemove', onMove);
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      runningRef.current = false;
+      io.disconnect();
+      window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [reduced, canHover, width, weight, italic, alpha]);
+
+  const cls = ['text-pressure-title', className, flex ? 'flex' : '', stroke ? 'stroke' : '']
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        background: 'transparent'
-      }}
-    >
-      {styleElement}
-      <h1
+    <div ref={containerRef} className="text-pressure-wrap">
+      <Tag
         ref={titleRef}
-        className={`text-pressure-title ${dynamicClassName}`}
+        className={cls}
+        aria-label={text}
         style={{
           fontFamily,
-          textTransform: 'uppercase',
-          fontSize: fontSize,
-          lineHeight,
-          transform: `scale(1, ${scaleY})`,
-          transformOrigin: 'center top',
-          margin: 0,
-          textAlign: 'center',
-          userSelect: 'none',
-          whiteSpace: 'nowrap',
-          fontWeight: 100,
-          width: '100%'
+          color: textColor,
+          ...(stroke ? { WebkitTextStrokeColor: strokeColor } : null),
         }}
       >
-        {chars.map((char, i) => (
-          <span
-            key={i}
-            ref={el => {
-              spansRef.current[i] = el;
-            }}
-            data-char={char}
-            style={{
-              display: 'inline-block',
-              color: stroke ? undefined : textColor
-            }}
-          >
-            {char}
-          </span>
-        ))}
-      </h1>
+        {/* aria-label above carries the accessible name; the per-character
+            spans still concatenate to the full string for crawlers. */}
+        <span className="tp-chars" aria-hidden="true">
+          {chars.map((char, i) => (
+            <span
+              key={i}
+              ref={(el) => {
+                spansRef.current[i] = el;
+              }}
+              data-char={char}
+            >
+              {char === ' ' ? ' ' : char}
+            </span>
+          ))}
+        </span>
+      </Tag>
     </div>
   );
 };

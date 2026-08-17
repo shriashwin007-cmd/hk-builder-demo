@@ -1,16 +1,13 @@
-import { useReveal, useStagger } from '../hooks/useReveal';
 import { services, galleryItems } from '../data/content';
 import SpotlightCard from './SpotlightCard/SpotlightCard';
 import AccordionGallery from './AccordionGallery/AccordionGallery';
+import Reveal from './motion/Reveal';
+import Stagger from './motion/Stagger';
 
 export default function Services() {
-  const headRef = useReveal();
-  const galleryRef = useReveal({ y: 56 });
-  const gridRef = useStagger({ y: 60, stagger: 0.14 });
-
   return (
     <section id="services" className="services">
-      <div className="section-head reveal" ref={headRef}>
+      <Reveal className="section-head">
         <div>
           <span className="tag mono">What We Do</span>
           <h2>One builder, every layer of the build.</h2>
@@ -19,9 +16,9 @@ export default function Services() {
           From structure to the final coat of paint — HK Builder runs construction, painting and interiors as one
           accountable team, not three vendors.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="services-gallery reveal" ref={galleryRef}>
+      <Reveal className="services-gallery" y={56}>
         <AccordionGallery
           items={galleryItems}
           defaultIndex={1}
@@ -37,14 +34,14 @@ export default function Services() {
           duration={0.7}
           tilt={6}
         />
-      </div>
+      </Reveal>
 
-      <div className="service-grid reveal" ref={gridRef}>
+      <Stagger className="service-grid" y={60} stagger={0.14}>
         {services.map((s) => (
           <SpotlightCard className="service-card" spotlightColor="rgba(201, 162, 39, 0.16)" key={s.idx}>
             <div className="service-body">
               <span className="idx">{s.idx}</span>
-              <svg className="icon" viewBox="0 0 40 40" fill="none">
+              <svg className="icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
                 <path d={s.icon} stroke="currentColor" strokeWidth="1.5" />
               </svg>
               <h3>{s.title}</h3>
@@ -52,7 +49,7 @@ export default function Services() {
             </div>
           </SpotlightCard>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }

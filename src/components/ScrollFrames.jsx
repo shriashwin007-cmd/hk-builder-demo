@@ -1,9 +1,9 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap } from '@/lib/gsap';
 import { projectCaptions } from '../data/content';
 
-gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 240;
 const FRAME_PATH = (i) => `/frames/frame-${String(i + 1).padStart(4, '0')}.jpg`;

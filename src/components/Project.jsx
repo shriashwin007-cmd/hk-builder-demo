@@ -1,13 +1,11 @@
-import { useReveal } from '../hooks/useReveal';
 import ScrollFrames from './ScrollFrames';
+import Reveal from './motion/Reveal';
 
 export default function Project() {
-  const headRef = useReveal();
-
   return (
     <>
       <section id="project" className="project">
-        <div className="section-head reveal" ref={headRef}>
+        <Reveal className="section-head">
           <div>
             <span className="tag mono">Flagship Project</span>
             <h2>SP Galaxy, Nolambur</h2>
@@ -16,7 +14,7 @@ export default function Project() {
             A premium 3BHK residence built for long-term comfort — from the structural frame down to the tap
             fittings.
           </p>
-        </div>
+        </Reveal>
       </section>
       <ScrollFrames />
     </>

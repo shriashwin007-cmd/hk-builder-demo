@@ -1,20 +1,18 @@
-import { useReveal, useStagger } from '../hooks/useReveal';
 import { location } from '../data/content';
+import Reveal from './motion/Reveal';
+import Stagger from './motion/Stagger';
 
 export default function Location() {
-  const headRef = useReveal();
-  const gridRef = useStagger({ y: 50, stagger: 0.1 });
-
   return (
     <section id="location" className="location">
-      <div className="section-head reveal" ref={headRef}>
+      <Reveal className="section-head">
         <div>
           <span className="tag mono">Location Advantage</span>
           <h2>Nolambur, well within reach.</h2>
         </div>
         <p>Schools, hospitals, colleges and workplaces — all inside a short drive from SP Galaxy.</p>
-      </div>
-      <div className="loc-grid reveal" ref={gridRef}>
+      </Reveal>
+      <Stagger className="loc-grid" y={50} stagger={0.1}>
         {location.map((col) => (
           <div className="loc-col" key={col.title}>
             <h4>{col.title}</h4>
@@ -26,7 +24,7 @@ export default function Location() {
             ))}
           </div>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }

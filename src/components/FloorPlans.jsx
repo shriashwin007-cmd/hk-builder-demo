@@ -1,14 +1,14 @@
+'use client';
+
 import { useState } from 'react';
-import { useReveal } from '../hooks/useReveal';
 import { floorPlans } from '../data/content';
 import FloorPlanSketch from './FloorPlanSketch';
 import SplitText from './SplitText';
 import BackgroundVideo from './BackgroundVideo';
+import Reveal from './motion/Reveal';
 
 export default function FloorPlans() {
   const [active, setActive] = useState(floorPlans[0].id);
-  const headRef = useReveal();
-  const bodyRef = useReveal();
   const plan = floorPlans.find((p) => p.id === active);
 
   return (
@@ -19,7 +19,7 @@ export default function FloorPlans() {
         playbackRate={0.6}
       />
       <div className="plans-video-overlay"></div>
-      <div className="section-head reveal" ref={headRef}>
+      <Reveal className="section-head">
         <div>
           <span className="tag mono">Floor Plans</span>
           <SplitText
@@ -43,9 +43,9 @@ export default function FloorPlans() {
             </button>
           ))}
         </div>
-      </div>
+      </Reveal>
 
-      <div className="plans-body reveal" ref={bodyRef}>
+      <Reveal className="plans-body">
         <div className="plan-info">
           <p className="plan-desc">
             Six thoughtfully designed configurations built around different lifestyles.
@@ -62,7 +62,7 @@ export default function FloorPlans() {
         <div className="plan-sketch-wrap">
           <FloorPlanSketch layoutKey={plan.layout} />
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

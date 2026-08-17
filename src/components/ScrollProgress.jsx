@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+'use client';
 
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef } from 'react';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
+
 
 export default function ScrollProgress() {
   const barRef = useRef(null);

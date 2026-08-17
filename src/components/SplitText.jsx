@@ -1,10 +1,8 @@
-import { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText as GSAPSplitText } from 'gsap/SplitText';
-import { useGSAP } from '@gsap/react';
+'use client';
 
-gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+import { useRef, useEffect, useState } from 'react';
+import { gsap, ScrollTrigger, SplitText as GSAPSplitText, useGSAP } from '@/lib/gsap';
+
 
 const SplitText = ({
   text,

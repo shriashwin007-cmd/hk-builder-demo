@@ -1,0 +1,1060 @@
+:root {
+  --green-deep: #0f2e1f;
+  --green-mid: #1e5236;
+  --gold: #c9a227;
+  /* Text-safe gold. --gold on --cream is only 2.16:1, below WCAG AA 4.5:1. */
+  --gold-ink: #7a6114;
+  --gold-soft: #e4c766;
+  --cream: #f6f2e7;
+  --navy: #16232b;
+  --sage: #7c9082;
+  --line: rgba(15, 46, 31, 0.16);
+  --cut-sm: 8px;
+  --cut-md: 16px;
+  --cut-lg: 26px;
+  --shadow-sm: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02),
+    0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+  --shadow-md: 0px 0px 0px 1px rgba(0, 0, 0, 0.06), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.06),
+    0px 3px 3px -1.5px rgba(0, 0, 0, 0.06), 0px 6px 6px -3px rgba(0, 0, 0, 0.06),
+    0px 12px 12px -6px rgba(0, 0, 0, 0.06), 0px 24px 24px -12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* scroll-behavior: smooth intentionally omitted — it fights GSAP
+   ScrollTrigger's pin/scrub math (canvas desync, sticky jumps). */
+body {
+  background: var(--cream);
+  color: var(--navy);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+}
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.mono {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+a {
+  color: inherit;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+/* Decorative background videos must never show a play/pause affordance —
+   Safari paints its own overlay button when it blocks autoplay. */
+.hero-video-bg,
+.plans-video-bg {
+  pointer-events: none;
+}
+.hero-video-bg::-webkit-media-controls,
+.plans-video-bg::-webkit-media-controls,
+.hero-video-bg::-webkit-media-controls-panel,
+.plans-video-bg::-webkit-media-controls-panel,
+.hero-video-bg::-webkit-media-controls-start-playback-button,
+.plans-video-bg::-webkit-media-controls-start-playback-button,
+.hero-video-bg::-webkit-media-controls-overlay-play-button,
+.plans-video-bg::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+}
+
+/* ---------- NAV ---------- */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 5vw;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark svg {
+  width: 30px;
+  height: 30px;
+}
+.logo-text {
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.05;
+}
+.logo-text span {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+nav .links {
+  display: flex;
+  gap: 34px;
+  font-size: 0.82rem;
+}
+nav .links a {
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+}
+nav .links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.35s ease;
+}
+nav .links a:hover::after {
+  width: 100%;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--green-deep);
+  color: var(--cream);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: linear-gradient(rgba(246, 242, 231, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(246, 242, 231, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+}
+.hero-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 46, 31, 0.22) 0%,
+    rgba(15, 46, 31, 0.06) 45%,
+    rgba(15, 46, 31, 0.3) 100%
+  );
+  pointer-events: none;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 0 5vw;
+  padding-top: 80px;
+  max-width: 1040px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--gold-soft);
+  margin-bottom: 26px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: var(--gold-soft);
+}
+.hero-pressure {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+  filter: drop-shadow(0 6px 28px rgba(0, 0, 0, 0.55));
+}
+.text-pressure-wrap {
+  position: relative;
+  width: 100%;
+}
+/* Sized in CSS, not JS: the old measure-then-setState pass shifted the LCP element. */
+.text-pressure-title {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  font-weight: 100;
+  line-height: 1;
+  font-size: max(44px, 20cqw);
+}
+.text-pressure-title .tp-chars {
+  display: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+.text-pressure-title.flex .tp-chars {
+  display: flex;
+  justify-content: space-between;
+}
+.text-pressure-title .tp-chars > span {
+  display: inline-block;
+}
+/* The flex layout collapses the word space to zero width, so "HK Builder"
+   reads as "HKBUILDER". Give the space character real width back. */
+.hero-pressure .text-pressure-title span[data-char=' '] {
+  min-width: 0.28em;
+}
+.hero-tagline {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--cream);
+  margin-top: 10px;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
+}
+.hero-tagline em {
+  font-style: italic;
+  color: var(--gold-soft);
+}
+.hero-line {
+  display: inline;
+}
+.hero-line .split-word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.outline-text,
+.outline-text .split-word {
+  color: var(--cream);
+}
+@supports (-webkit-text-stroke: 1px black) or (text-stroke: 1px black) {
+  .outline-text,
+  .outline-text .split-word {
+    color: transparent;
+    -webkit-text-stroke: 1.8px var(--cream);
+    text-stroke: 1.8px var(--cream);
+  }
+}
+.hero-accent-line {
+  display: inline;
+  opacity: 0;
+  animation: heroAccentIn 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.7s forwards;
+}
+@keyframes heroAccentIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-accent-line {
+    animation: none;
+    opacity: 1;
+  }
+}
+.hero p.lede {
+  margin-top: 26px;
+  max-width: 44ch;
+  font-size: 1.18rem;
+  color: rgba(246, 242, 231, 0.85);
+  line-height: 1.6;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+.hero-cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  clip-path: polygon(var(--cut-sm) 0, 100% 0, 100% calc(100% - var(--cut-sm)), calc(100% - var(--cut-sm)) 100%, 0 100%, 0 var(--cut-sm));
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-gold {
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 500;
+}
+.btn-gold:hover {
+  background: var(--gold-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.btn-ghost {
+  border: 1px solid rgba(246, 242, 231, 0.35);
+  color: var(--cream);
+}
+.btn-ghost:hover {
+  border-color: var(--gold-soft);
+  color: var(--gold-soft);
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 40px;
+  padding: 0 5vw;
+  margin-top: 70px;
+  padding-bottom: 40px;
+}
+.hero-stats div {
+  border-top: 1px solid rgba(246, 242, 231, 0.2);
+  padding-top: 14px;
+}
+.hero-stats .num {
+  font-family: var(--font-display), serif;
+  font-size: 2.1rem;
+  color: var(--gold-soft);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
+}
+.hero-stats .lbl {
+  font-size: 0.76rem;
+  color: rgba(246, 242, 231, 0.65);
+  margin-top: 6px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 26px;
+  left: 5vw;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  color: rgba(246, 242, 231, 0.55);
+}
+.scroll-cue .line {
+  width: 1px;
+  height: 34px;
+  background: rgba(246, 242, 231, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue .line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gold-soft);
+  animation: cue 1.8s infinite;
+}
+@keyframes cue {
+  to {
+    top: 100%;
+  }
+}
+
+/* ---------- SECTION SHELL ---------- */
+section {
+  position: relative;
+  padding: 88px 5vw;
+}
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.section-head .tag {
+  font-size: 0.72rem;
+  color: var(--green-mid);
+  margin-bottom: 14px;
+  display: block;
+}
+.section-head h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  max-width: 14ch;
+}
+.section-head p {
+  max-width: 34ch;
+  color: var(--sage);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+.divider {
+  height: 1px;
+  width: 100%;
+  background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 16px);
+}
+
+/* ---------- SERVICES ---------- */
+.services {
+  background: var(--cream);
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  /* cream, not --line: the cards stagger in from opacity 0, and a dark
+     grid background reads as an empty grey placeholder until they land. */
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+.service-card {
+  background: var(--cream);
+  padding: 0;
+  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  position: relative;
+  clip-path: polygon(
+    var(--cut-md) 0,
+    100% 0,
+    100% calc(100% - var(--cut-md)),
+    calc(100% - var(--cut-md)) 100%,
+    0 100%,
+    0 var(--cut-md)
+  );
+}
+.services-gallery {
+  margin-bottom: 48px;
+}
+/* The component's default overlay stacks a strong bottom gradient on top of
+   a flat dim, which muted the photography. Keep just enough for the labels. */
+.services-gallery .ag-panel__overlay {
+  background:
+    linear-gradient(180deg, transparent 58%, rgba(12, 30, 20, 0.72) 100%),
+    rgba(12, 30, 20, calc(var(--ag-dim, 0.35) * 0.5));
+}
+.services-gallery .ag-panel__text {
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+}
+.service-body {
+  padding: 30px 30px 32px;
+}
+.service-card .icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 18px;
+  color: var(--green-mid);
+}
+.service-card:hover {
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.service-card .idx {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: block;
+}
+.service-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+.service-card p {
+  font-size: 0.88rem;
+  color: var(--sage);
+  line-height: 1.6;
+}
+
+/* ---------- PROJECT ---------- */
+.project {
+  background: var(--navy);
+  color: var(--cream);
+}
+.project .section-head p {
+  color: rgba(246, 242, 231, 0.6);
+}
+.project .section-head .tag {
+  color: var(--gold-soft);
+}
+/* ---------- SCROLL-DRIVEN FRAME SEQUENCE ---------- */
+.scroll-frames-wrap {
+  position: relative;
+  height: 400vh;
+  background: #000;
+}
+.scroll-frames-pin {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.scroll-frames-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.scroll-frames-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  color: rgba(246, 242, 231, 0.7);
+  font-size: 0.72rem;
+  z-index: 3;
+}
+.scroll-frames-head {
+  position: absolute;
+  top: 32px;
+  left: 5vw;
+  right: 5vw;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: rgba(246, 242, 231, 0.6);
+  pointer-events: none;
+}
+.scroll-caption-track {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 8vw;
+  perspective: 1400px;
+  pointer-events: none;
+}
+.scroll-caption {
+  position: absolute;
+  max-width: 660px;
+  color: var(--cream);
+  visibility: hidden;
+  padding-left: 30px;
+  border-left: 2px solid rgba(228, 199, 102, 0.55);
+}
+.scroll-caption .cap-idx {
+  display: block;
+  font-size: 0.88rem;
+  letter-spacing: 0.18em;
+  color: var(--gold-soft);
+  margin-bottom: 20px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+.scroll-caption h3 {
+  font-size: clamp(2.4rem, 5.2vw, 4.4rem);
+  line-height: 1.05;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+}
+.scroll-caption p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(246, 242, 231, 0.85);
+  max-width: 46ch;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+}
+.scroll-progress-track {
+  position: absolute;
+  left: 8vw;
+  right: 8vw;
+  bottom: 32px;
+  height: 1px;
+  background: rgba(246, 242, 231, 0.16);
+  z-index: 2;
+}
+.scroll-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--gold-soft);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (max-width: 900px) {
+  .scroll-frames-wrap {
+    height: 300vh;
+  }
+  .scroll-caption {
+    max-width: 80vw;
+  }
+}
+
+.badge-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 34px;
+}
+.badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--gold-soft);
+  color: var(--gold-soft);
+  padding: 8px 14px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+/* ---------- FLOOR PLANS ---------- */
+.plans {
+  position: relative;
+  background: var(--green-deep);
+}
+.plans-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Blurred so the video's own baked-in floor-plan text reads as soft
+     texture instead of competing with this section's real labels. */
+  filter: blur(22px) saturate(0.8);
+  transform: scale(1.12);
+}
+.plans-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 46, 31, 0.9) 0%,
+    rgba(15, 46, 31, 0.82) 45%,
+    rgba(15, 46, 31, 0.93) 100%
+  );
+  pointer-events: none;
+}
+.plans .section-head,
+.plans .plans-body {
+  position: relative;
+  z-index: 2;
+}
+.plans .section-head .tag {
+  color: var(--gold-soft);
+}
+.plans .section-head h2 {
+  color: var(--cream);
+  filter: drop-shadow(0 6px 26px rgba(0, 0, 0, 0.55));
+}
+.plans .plan-desc {
+  color: rgba(246, 242, 231, 0.78);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+}
+.plans .plan-fact-id {
+  color: var(--gold-soft);
+}
+.plans .plan-fact-area {
+  color: var(--cream);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+.plans .plan-fact-list li {
+  color: rgba(246, 242, 231, 0.78);
+  border-top-color: rgba(246, 242, 231, 0.18);
+}
+.plans .tabs {
+  border-bottom-color: rgba(246, 242, 231, 0.2);
+}
+.plans .tab-btn {
+  color: rgba(246, 242, 231, 0.5);
+}
+.plans .tab-btn.active {
+  color: var(--cream);
+  border-color: var(--gold);
+}
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.76rem;
+  padding: 14px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--sage);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.tab-btn.active {
+  color: var(--navy);
+  border-color: var(--gold);
+}
+.plans-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+.plan-info {
+  position: sticky;
+  top: 120px;
+}
+.plan-desc {
+  font-size: 0.98rem;
+  color: var(--sage);
+  line-height: 1.6;
+  max-width: 30ch;
+}
+.plan-divider {
+  width: 56px;
+  height: 1px;
+  background: var(--gold);
+  margin: 32px 0;
+}
+.plan-fact-id {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--green-mid);
+  margin-bottom: 6px;
+}
+.plan-fact-area {
+  font-family: var(--font-display), serif;
+  font-size: 2.4rem;
+  color: var(--navy);
+  margin-bottom: 26px;
+}
+.plan-fact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.plan-fact-list li {
+  font-size: 0.92rem;
+  color: var(--sage);
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.plan-sketch-wrap {
+  width: 100%;
+}
+.plan-sketch {
+  border: 1px solid rgba(228, 199, 102, 0.28);
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  max-width: 460px;
+  margin-left: auto;
+  /* Near-opaque: the video behind is atmosphere, not something that
+     should show through and collide with the plan labels. */
+  background: rgba(11, 34, 23, 0.93);
+  box-shadow: var(--shadow-lg);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut-md)) 0,
+    100% var(--cut-md),
+    100% 100%,
+    var(--cut-md) 100%,
+    0 calc(100% - var(--cut-md))
+  );
+}
+.plan-sketch svg {
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 900px) {
+  .plans-body {
+    grid-template-columns: 1fr;
+  }
+  .plan-info {
+    position: static;
+  }
+}
+
+/* ---------- LOCATION ---------- */
+.location {
+  position: relative;
+  background: var(--green-deep);
+  color: var(--cream);
+  overflow: hidden;
+}
+.location::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(
+      180deg,
+      rgba(15, 46, 31, 0.9) 0%,
+      rgba(15, 46, 31, 0.78) 40%,
+      rgba(15, 46, 31, 0.94) 100%
+    ),
+    url('/img/location-aerial.jpg');
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+.location > * {
+  position: relative;
+  z-index: 1;
+}
+.location .section-head .tag {
+  color: var(--gold-soft);
+}
+.location .section-head p {
+  color: rgba(246, 242, 231, 0.6);
+}
+.loc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(246, 242, 231, 0.12);
+  border: 1px solid rgba(246, 242, 231, 0.12);
+}
+.loc-col {
+  background: var(--green-deep);
+  padding: 30px 26px;
+}
+.loc-col h4 {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-soft);
+  margin-bottom: 20px;
+}
+.loc-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.84rem;
+  padding: 9px 0;
+  border-top: 1px solid rgba(246, 242, 231, 0.1);
+}
+.loc-item span:last-child {
+  color: var(--gold-soft);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.76rem;
+}
+
+/* ---------- TRUST ---------- */
+.trust {
+  background: var(--cream);
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+.trust-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 44px 0;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.86rem;
+  color: var(--sage);
+}
+.trust-item strong {
+  color: var(--navy);
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+}
+
+/* ---------- CONTACT / FOOTER ---------- */
+footer {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 84px 5vw 36px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 60px;
+}
+footer h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  max-width: 12ch;
+  margin-bottom: 26px;
+}
+.footer-cta p {
+  color: rgba(246, 242, 231, 0.6);
+  max-width: 34ch;
+  margin-bottom: 30px;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+.footer-col h4 {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-soft);
+  margin-bottom: 20px;
+}
+.footer-col p,
+.footer-col a {
+  display: block;
+  font-size: 0.88rem;
+  color: rgba(246, 242, 231, 0.72);
+  text-decoration: none;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.footer-col a:hover {
+  color: var(--gold-soft);
+}
+.footer-bottom {
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(246, 242, 231, 0.12);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: rgba(246, 242, 231, 0.45);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* GSAP owns these once the hook mounts and adds .in; the base rule only
+   prevents a flash of un-animated content before hydration. */
+html.js .reveal:not(.in) {
+  opacity: 0;
+}
+.reveal.in {
+  opacity: 1;
+}
+
+/* ---------- SCROLL PROGRESS ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 200;
+  background: transparent;
+  pointer-events: none;
+}
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@media (max-width: 900px) {
+  .hero-copy {
+    padding-top: 150px;
+  }
+  .hero-stats {
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+  .loc-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .plan-panel.active {
+    grid-template-columns: 1fr;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  nav .links {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .scroll-cue .line::after {
+    animation: none;
+  }
+}
+
+/* ---------- UTILITIES ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 300;
+  background: var(--navy);
+  color: var(--cream);
+  padding: 12px 20px;
+  font-size: 0.9rem;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* Rules lifted out of TextPressure's injected <style> tag. */
+.text-pressure-title.flex {
+  display: flex;
+  justify-content: space-between;
+}
+.text-pressure-title.stroke span {
+  position: relative;
+}
+.text-pressure-title.stroke span::after {
+  content: attr(data-char);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: transparent;
+  z-index: -1;
+  -webkit-text-stroke-width: 3px;
+}

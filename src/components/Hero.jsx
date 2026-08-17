@@ -16,8 +16,6 @@ export default function Hero() {
         <div className="hero-pressure">
           <TextPressure
             text="HK Builder"
-            fontFamily="Fraunces"
-            fontUrl="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&display=swap"
             flex={true}
             alpha={false}
             stroke={false}
@@ -25,7 +23,6 @@ export default function Hero() {
             weight={true}
             italic={false}
             textColor="#F6F2E7"
-            minFontSize={44}
           />
         </div>
         <p className="hero-tagline">
