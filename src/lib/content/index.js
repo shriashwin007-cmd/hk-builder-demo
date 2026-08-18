@@ -9,7 +9,7 @@
  */
 import { siteSettings } from './fallback/site';
 import { projects, layouts } from './fallback/projects';
-import { services, testimonials, faqs } from './fallback/misc';
+import { services, partnerships, testimonials, faqs } from './fallback/misc';
 
 const SOURCE =
   process.env.CONTENT_SOURCE === 'sanity' && process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
@@ -57,6 +57,15 @@ export async function getFeaturedProject() {
 
 export async function getServices() {
   return services;
+}
+
+/**
+ * Not in Sanity yet — this content changes rarely enough that it doesn't need
+ * to be client-editable in phase 1. Add a `partnerships` singleton schema if
+ * that changes.
+ */
+export async function getPartnerships() {
+  return partnerships;
 }
 
 export async function getTestimonials() {

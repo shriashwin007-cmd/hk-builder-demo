@@ -1723,3 +1723,142 @@ nav .logo-mark {
     padding-top: 120px;
   }
 }
+
+/* ---------- SERVICE SUB-CATEGORIES (homepage + /services teaser cards) ---------- */
+.service-subcats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.service-subcats span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+a.service-body {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------- CONTRACTING TRADES ---------- */
+.trade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.trade-card {
+  background: var(--cream);
+  padding: 26px 28px;
+  transition: background 0.3s ease;
+}
+.trade-card:hover {
+  background: #fff;
+}
+.trade-card h3 {
+  font-size: 1.02rem;
+  margin-bottom: 8px;
+}
+.trade-card p {
+  font-size: 0.86rem;
+  color: var(--sage);
+  line-height: 1.55;
+}
+@media (max-width: 900px) {
+  .trade-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .trade-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- PARTNERSHIPS ---------- */
+.partnerships {
+  background: var(--navy);
+  color: var(--cream);
+}
+.partnerships .section-head .tag {
+  color: var(--gold-soft);
+}
+.partnerships .section-head p {
+  color: rgba(246, 242, 231, 0.65);
+}
+.partnerships-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 72px;
+}
+.partnerships-block h3 {
+  font-size: 1.1rem;
+  color: var(--gold-soft);
+  margin-bottom: 18px;
+}
+.partnerships-block p,
+.prose-list {
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: rgba(246, 242, 231, 0.78);
+}
+.prose-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.prose-list strong {
+  color: var(--cream);
+}
+.partnerships-sectors h3 {
+  font-size: 1.1rem;
+  color: var(--gold-soft);
+  margin-bottom: 10px;
+}
+.partnerships-sectors .prose {
+  color: rgba(246, 242, 231, 0.65);
+  margin-bottom: 28px;
+}
+.sector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(246, 242, 231, 0.14);
+  border: 1px solid rgba(246, 242, 231, 0.14);
+}
+.sector-card {
+  background: var(--navy);
+  padding: 28px 26px;
+}
+.sector-card h4 {
+  font-family: var(--font-display), serif;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+.sector-card p {
+  font-size: 0.86rem;
+  color: rgba(246, 242, 231, 0.65);
+  line-height: 1.6;
+}
+.partnerships-cta {
+  margin-top: 48px;
+}
+@media (max-width: 900px) {
+  .partnerships-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .sector-grid {
+    grid-template-columns: 1fr;
+  }
+}
