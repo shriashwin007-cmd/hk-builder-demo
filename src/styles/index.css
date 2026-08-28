@@ -73,66 +73,10 @@ img {
 }
 
 /* ---------- NAV ---------- */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 5vw;
-  mix-blend-mode: difference;
-  color: #fff;
-}
-.logo-mark {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo-mark svg {
-  width: 30px;
-  height: 30px;
-}
-.logo-text {
-  font-family: var(--font-display), serif;
-  font-weight: 600;
-  font-size: 1.05rem;
-  line-height: 1.05;
-}
-.logo-text span {
-  display: block;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.14em;
-  font-weight: 400;
-  opacity: 0.75;
-  text-transform: uppercase;
-}
-nav .links {
-  display: flex;
-  gap: 34px;
-  font-size: 0.82rem;
-}
-nav .links a {
-  text-decoration: none;
-  position: relative;
-  padding-bottom: 2px;
-}
-nav .links a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 1px;
-  background: currentColor;
-  transition: width 0.35s ease;
-}
-nav .links a:hover::after {
-  width: 100%;
-}
+/* The nav is now PillNav (src/components/PillNav/) — see PillNav.css for its
+   styling. It's a floating pill, not a full-width bar, so sections no longer
+   need to reserve a fixed header height; .hero-copy's top padding just
+   clears the pill itself. */
 
 /* ---------- HERO ---------- */
 .hero {
@@ -1059,96 +1003,6 @@ html.js .reveal:not(.in) {
   -webkit-text-stroke-width: 3px;
 }
 
-/* ---------- NAV: solid variant + mobile menu ---------- */
-.site-nav--solid {
-  mix-blend-mode: normal;
-  background: rgba(246, 242, 231, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--navy);
-  border-bottom: 1px solid var(--line);
-}
-.site-nav--solid .logo-text span {
-  opacity: 0.6;
-}
-nav .logo-mark {
-  text-decoration: none;
-  color: inherit;
-}
-.nav-toggle {
-  display: none;
-  position: relative;
-  width: 42px;
-  height: 42px;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  color: inherit;
-  padding: 0;
-}
-.nav-toggle__bar {
-  position: absolute;
-  left: 9px;
-  width: 24px;
-  height: 1.5px;
-  background: currentColor;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.nav-toggle__bar:nth-child(2) {
-  top: 17px;
-}
-.nav-toggle__bar:nth-child(3) {
-  top: 25px;
-}
-.site-nav--open .nav-toggle__bar:nth-child(2) {
-  transform: translateY(4px) rotate(45deg);
-}
-.site-nav--open .nav-toggle__bar:nth-child(3) {
-  transform: translateY(-4px) rotate(-45deg);
-}
-.mobile-menu {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  /* The blend-mode trick can't work behind an opaque overlay panel. */
-  .site-nav--open {
-    mix-blend-mode: normal;
-    background: var(--green-deep);
-    color: var(--cream);
-  }
-  .nav-toggle {
-    display: block;
-  }
-  .mobile-menu {
-    position: fixed;
-    inset: 74px 0 0 0;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 32px 5vw;
-    background: var(--green-deep);
-    color: var(--cream);
-  }
-  .mobile-menu[hidden] {
-    display: none;
-  }
-  .mobile-menu a {
-    font-family: var(--font-display), serif;
-    font-size: 1.9rem;
-    text-decoration: none;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(246, 242, 231, 0.14);
-  }
-  .mobile-menu__call {
-    margin-top: 22px;
-    font-family: var(--font-mono), monospace !important;
-    font-size: 0.9rem !important;
-    color: var(--gold-soft);
-    border-bottom: 0 !important;
-  }
-}
 
 /* ---------- INNER PAGES ---------- */
 .page-section {
