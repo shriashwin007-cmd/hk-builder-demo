@@ -27,7 +27,8 @@ const AccordionGallery = ({
   trigger = 'hover',
   showLabels = true,
   grayscale = true,
-  className = ''
+  className = '',
+  onExpandedClick,
 }) => {
   const rootRef = useRef(null);
   const panelRefs = useRef([]);
@@ -158,6 +159,12 @@ const AccordionGallery = ({
     if (i !== active) {
       e.preventDefault();
       setActive(i);
+    } else if (onExpandedClick) {
+      // The panel is already open — a click here means "show me more", not
+      // "expand", so hand off to the caller (e.g. open a lightbox) instead of
+      // following item.link.
+      e.preventDefault();
+      onExpandedClick(i, e);
     }
   };
 
@@ -168,6 +175,12 @@ const AccordionGallery = ({
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       setActive((i - 1 + count) % count);
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      // Non-link panels are plain divs, which don't fire onClick for Enter/Space.
+      if (e.target.tagName !== 'A') {
+        e.preventDefault();
+        handleClick(i, e);
+      }
     }
   };
 

@@ -1322,47 +1322,15 @@ nav .logo-mark {
 }
 
 /* ---------- GALLERY + LIGHTBOX ---------- */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-}
-.gallery-item {
-  position: relative;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-}
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.gallery-item:hover img {
-  transform: scale(1.04);
-}
-.gallery-item__label {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  color: var(--cream);
+.gallery-accordion-wrap .ag-panel__text {
   font-family: var(--font-display), serif;
-  font-size: 1.05rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  font-weight: 600;
 }
-.gallery-item__disclaimer {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.55rem;
-  padding: 5px 8px;
-  background: rgba(11, 34, 23, 0.82);
-  color: var(--cream);
-  letter-spacing: 0.06em;
+.gallery-hint {
+  margin-top: 16px;
+  font-size: 0.66rem;
+  color: var(--sage);
+  text-align: center;
 }
 .lightbox {
   position: fixed;

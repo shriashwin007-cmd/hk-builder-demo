@@ -1,11 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Stagger from '@/components/motion/Stagger';
+import { useEffect, useMemo, useState } from 'react';
+import Reveal from '@/components/motion/Reveal';
+import AccordionGallery from '@/components/AccordionGallery/AccordionGallery';
 
 export default function Gallery({ items = [] }) {
   const [open, setOpen] = useState(-1);
   const has = items.length > 0;
+
+  const agItems = useMemo(
+    () =>
+      items.map((it) => ({
+        image: it.image,
+        alt: it.alt ?? it.label ?? '',
+        label: it.imageType === 'artists-impression' ? `${it.label} · Artist's impression` : it.label,
+      })),
+    [items]
+  );
 
   useEffect(() => {
     if (open < 0) return;
@@ -27,19 +38,25 @@ export default function Gallery({ items = [] }) {
 
   return (
     <section id="gallery" className="page-section">
-      <Stagger className="gallery-grid" y={40} stagger={0.08}>
-        {items.map((it, i) => (
-          <button type="button" className="gallery-item" key={it.image} onClick={() => setOpen(i)}>
-            <img src={it.image} alt={it.alt ?? it.label ?? ''} loading="lazy" />
-            <span className="gallery-item__label">{it.label}</span>
-            {/* Enforced label: these are AI-generated placeholders, and
-                presenting them as photographs would be misleading. */}
-            {it.imageType === 'artists-impression' ? (
-              <span className="gallery-item__disclaimer mono">Artist&apos;s impression</span>
-            ) : null}
-          </button>
-        ))}
-      </Stagger>
+      <Reveal className="gallery-accordion-wrap">
+        <AccordionGallery
+          items={agItems}
+          defaultIndex={0}
+          trigger="hover"
+          height={560}
+          gap={10}
+          radius={4}
+          expandRatio={0.5}
+          accentColor="#C9A227"
+          overlayColor="#0F2E1F"
+          textColor="#F6F2E7"
+          grayscale={false}
+          duration={0.65}
+          tilt={6}
+          onExpandedClick={(i) => setOpen(i)}
+        />
+      </Reveal>
+      <p className="gallery-hint mono">Hover to preview · click the open panel for full size</p>
 
       {open >= 0 ? (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={current.label}>
