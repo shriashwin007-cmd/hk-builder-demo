@@ -10,6 +10,7 @@
 import { siteSettings } from './fallback/site';
 import { projects, layouts } from './fallback/projects';
 import { services, partnerships, testimonials, faqs } from './fallback/misc';
+import { about } from './fallback/about';
 
 const SOURCE =
   process.env.CONTENT_SOURCE === 'sanity' && process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
@@ -57,6 +58,19 @@ export async function getFeaturedProject() {
 
 export async function getServices() {
   return services;
+}
+
+export async function getServiceBySlug(slug) {
+  const all = await getServices();
+  return all.find((s) => s.slug === slug) ?? null;
+}
+
+/**
+ * Not in Sanity yet — company story changes rarely enough it doesn't need to
+ * be client-editable in phase 1.
+ */
+export async function getAbout() {
+  return about;
 }
 
 /**

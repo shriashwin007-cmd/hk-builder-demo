@@ -1568,6 +1568,117 @@ a.service-body {
   text-decoration: none;
   color: inherit;
 }
+.service-link {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 0.68rem;
+  color: var(--gold-ink);
+}
+.section-head .tag a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.section-head .tag a:hover {
+  color: var(--gold-ink);
+}
+
+/* ---------- SERVICE DETAIL PAGES ---------- */
+.service-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.service-category-card {
+  background: var(--cream);
+  padding: 40px 30px;
+  transition: background 0.3s ease;
+}
+.service-category-card:hover {
+  background: #fff;
+}
+.service-category-card h3 {
+  font-size: 1.15rem;
+}
+.service-detail-cta {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.service-back-link {
+  font-size: 0.86rem;
+  color: var(--sage);
+  text-decoration: none;
+}
+.service-back-link:hover {
+  color: var(--gold-ink);
+}
+.services-partnerships-teaser {
+  margin-top: 88px;
+  padding-top: 56px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.services-partnerships-teaser h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  max-width: 20ch;
+  margin: 12px 0 10px;
+}
+.services-partnerships-teaser p {
+  max-width: 50ch;
+  color: var(--sage);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+@media (max-width: 700px) {
+  .services-partnerships-teaser {
+    align-items: flex-start;
+  }
+}
+
+/* ---------- ABOUT PILLARS ---------- */
+.about-pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 56px;
+}
+.about-pillar-card {
+  background: var(--cream);
+  padding: 34px 28px;
+}
+.about-pillar-card .idx {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--gold);
+  margin-bottom: 22px;
+}
+.about-pillar-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.about-pillar-card p {
+  font-size: 0.9rem;
+  color: var(--sage);
+  line-height: 1.6;
+}
+.about-closing {
+  max-width: 68ch;
+}
+@media (max-width: 900px) {
+  .about-pillar-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ---------- CONTRACTING TRADES ---------- */
 .trade-grid {
@@ -1622,7 +1733,7 @@ a.service-body {
   gap: 60px;
   margin-bottom: 72px;
 }
-.partnerships-block h3 {
+.partnerships-block h2 {
   font-size: 1.1rem;
   color: var(--gold-soft);
   margin-bottom: 18px;
@@ -1642,7 +1753,7 @@ a.service-body {
 .prose-list strong {
   color: var(--cream);
 }
-.partnerships-sectors h3 {
+.partnerships-sectors h2 {
   font-size: 1.1rem;
   color: var(--gold-soft);
   margin-bottom: 10px;
@@ -1662,7 +1773,7 @@ a.service-body {
   background: var(--navy);
   padding: 28px 26px;
 }
-.sector-card h4 {
+.sector-card h3 {
   font-family: var(--font-display), serif;
   font-size: 1.05rem;
   margin-bottom: 10px;

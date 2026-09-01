@@ -1,6 +1,7 @@
 export const services = [
   {
     idx: '01',
+    slug: 'construction',
     title: 'Construction',
     desc: 'Residential, commercial and industrial builds — one accountable team from foundation to handover.',
     icon: 'M6 34V14L20 6L34 14V34 M14 34V20H26V34',
@@ -8,6 +9,7 @@ export const services = [
   },
   {
     idx: '02',
+    slug: 'interior',
     title: 'Interior',
     desc: 'Move-in ready fit-out for homes and workplaces, finished in-house, not outsourced.',
     icon: 'M6,10 h28 v22 h-28 z M6,18 h28 M16,18 v14',
@@ -15,6 +17,7 @@ export const services = [
   },
   {
     idx: '03',
+    slug: 'contracting',
     title: 'Contracting',
     desc: 'Specialist trade services delivered in-house, from demolition through to final finishes.',
     icon: 'M20 4C20 4 10 16 10 24C10 29.5 14.5 34 20 34C25.5 34 30 29.5 30 24C30 16 20 4 20 4Z',
